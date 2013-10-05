@@ -26,8 +26,8 @@ def distance(line, a, b):
     return sum([ (p[1] - (p[0] * a + b))**2 for p in line.points ])
 
 def main():
-    delta = 0.0001
-    alpha = 0.0001
+    delta = 0.0001  # difference quotient approximation
+    alpha = 0.0001  # step size
 
     a = 0
     b = 0
