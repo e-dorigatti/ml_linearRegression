@@ -2,6 +2,7 @@
 
 import random
 import matplotlib.pyplot as plt
+from math import sqrt
 
 class RandomLine:
     def __init__(self, errmax, num):
@@ -16,6 +17,18 @@ class RandomLine:
 
             self.points.append((x, y))
 
+    def trend_line(self):
+        sum_x = sum([p[0] for p in self.points])
+        sum_y = sum([p[1] for p in self.points])
+        
+        numerator = sum([p[0]*p[1] for p in self.points]) - (sum_x * sum_y) / len(self.points)
+        denominator = sum([p[0]**2 for p in self.points]) - sum_x**2 / len(self.points)
+         
+        a = numerator / denominator
+        b = sum_y / len(self.points) - a * sum_x / len(self.points)
+
+        return a, b
+
     def save(self, path):
         with open(path, "w") as streamOut:
             streamOut.write("x;y\n")
@@ -25,6 +38,13 @@ class RandomLine:
 def distance(line, a, b):
     return sum([ (p[1] - (p[0] * a + b))**2 for p in line.points ])
 
+def correlation_coefficient(points):
+    denominator = sqrt(
+        sum([p[0]**2 for p in points]) *
+        sum([p[1]**2 for p in points]))
+
+    return sum([p[0] * p[1] for p in points]) / denominator    
+
 def main():
     delta = 0.0001  # difference quotient approximation
     alpha = 0.0001  # step size
@@ -32,6 +52,10 @@ def main():
     a = 0
     b = 0
     r = RandomLine(5, 100)
+
+    trend = r.trend_line()
+    print "Correlation coefficient is: {}".format(correlation_coefficient(r.points))
+    print "Trend line using formula: y = {} * x + {}".format(trend[0], trend[1])
 
     tries = []
     while len(tries) < 5 or abs(tries[-1][1] - tries[-2][1]) > 0.01:
@@ -43,9 +67,9 @@ def main():
         a -= g_a * alpha
         b -= g_b * alpha
 
-        print dist, g_a, g_b
-
         tries.append((len(tries), dist, a, b, g_a, g_b))
+
+    print "Calculated trend line is: y = {} * x + {}".format(a, b)
 
     r.save("data.csv")
     with open("tries.csv", "w") as streamOut:
@@ -72,8 +96,12 @@ def plot_graph(tries, line):
     plt.title("Approximation error")
 
     plt.subplot(2, 1, 2)
+
+    plt.axhline(y=line.a, color='r', linestyle='dashed')
     plt.plot([t[0] for t in tries], [t[2] for t in tries], '-r')
-    plt.plot([t[0] for t in tries], [t[3] for t in tries], '--g')
+
+    plt.axhline(y=line.b, color='g', linestyle='dashed')
+    plt.plot([t[0] for t in tries], [t[3] for t in tries], '-g')
     plt.title("Line coefficients evolution")
 
     plt.show()
