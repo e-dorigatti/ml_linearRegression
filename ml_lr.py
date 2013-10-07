@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import random
 import matplotlib.pyplot as plt
 from math import sqrt
