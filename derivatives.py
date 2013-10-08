@@ -1,14 +1,15 @@
 def add_vect(v, w):
     return [vi + wi for vi, wi in zip(v, w)] 
 
-def derivatives(function, point, npar):
+def derivatives(function, point):
     """
     Calculates function's derivatives in the given point;
     the function can have as many parameters as needed.
     
-    function must accept -npar- parameters and return a number.
+    function must accept -len(point)- parameters and return a number.
     """
     delta = 0.0001
+    npar = len(point)
     fp = function(*point)
 
     derivatives = []
@@ -29,7 +30,6 @@ def derivatives(function, point, npar):
 
 if __name__ == '__main__':
     f = lambda x, y, z: x**2 + 2*y + 2*x*z
-
     test = [2,2,2]
 
     print "f(x, y) = x^2 + 2y + 2xz"
@@ -38,4 +38,4 @@ if __name__ == '__main__':
     print "    df/dz = 2x"
     print
     print "derivatives in (2, 2, 2) should be (8, 2, 4)"
-    print "and actually is ", derivatives(f, test, len(test))
+    print "and actually is ", derivatives(f, test)

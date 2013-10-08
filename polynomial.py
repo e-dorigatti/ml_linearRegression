@@ -2,11 +2,12 @@ from random import triangular as randrange
 import matplotlib.pyplot as plt
 
 class Polynomial:
-    def __init__(self, errmax, npoints, coeff):
+    def __init__(self, coeff):
         self.coefficients = []
         for i in range(coeff):
             self.coefficients.append(randrange(-0.5, 0.5))
 
+    def generate_points(self, npoints, errmax):
         self.points = []
         e = errmax / 2.0
         for i in range(npoints):
@@ -27,10 +28,14 @@ class Polynomial:
     def plot(self):
         x = range(-10, 10)
         plt.plot(x, [self.value(p) for p in x], '-b')
-        plt.plot([p[0] for p in self.points],
-            [p[1] for p in self.points], 'ro')
+
+        if hasattr(self, 'points'):
+            plt.plot([p[0] for p in self.points],
+                [p[1] for p in self.points], 'ro')
+
         plt.show()
 
 if __name__ == '__main__':
-    p = Polynomial(40, 50, 4)
+    p = Polynomial(4)
+    p.generate_points(40, 50)
     p.plot()
