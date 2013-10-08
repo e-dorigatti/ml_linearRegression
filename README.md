@@ -9,3 +9,7 @@ and gradient).
 Requires matplotlib in order to plot some graphs (original
 data, error over time and parameters over time).
 
+ml lr.py is a self contained file which correctly shows the
+approximation of a regression line. approximation.py tries
+to solve the same problem using arbitrary degree polynomials
+and a general version of the gradient descent method.
