@@ -8,7 +8,7 @@ def derivatives(function, point):
     
     function must accept -len(point)- parameters and return a number.
     """
-    delta = 0.0001
+    delta = 0.0000001
     npar = len(point)
     fp = function(*point)
 

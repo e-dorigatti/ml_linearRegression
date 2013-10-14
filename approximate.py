@@ -1,7 +1,8 @@
 from polynomial import Polynomial
 from derivatives import derivatives
 import matplotlib.pyplot as plt
-from math import sqrt
+from math import sqrt, exp
+from random import triangular as randrange
 
 def add_vect(v, w):
     return [vi + wi for vi, wi in zip(v, w)]
@@ -36,21 +37,36 @@ def main(npar):
         return sum([ (y[0] - y[1])**2
             for y in zip(y_teo, y_meas)])
     # -----
-    alpha = 0.0001
+    alpha = 0.1
 
     pol = Polynomial(npar)
     pol.generate_points(50, 40)
 
-    point = [0] * npar
-    for i in range(30):
+    point = []
+    for i in range(npar):
+        point.append(randrange(-0.5, 0.5))
+
+    plot_y = []
+
+    for i in range(300):
+        dnorm = normalize(derivatives(sqr_distance, point))
+
+        scaling = exp(-alpha * i)
+        point = add_vect(point, scale(dnorm, -scaling))
+
+        dist = sqr_distance(*point)
+        plot_y.append(dist)
+
+        print "distance: ", dist
+        print "scaling: ", scaling
+        continue
+        print "derivatives: ", dnorm
         print "point: ", point
-
-        d = normalize(derivatives(sqr_distance, point))
-        point = add_vect(point, scale(d, -alpha))
-
-        print "distance: ", sqr_distance(*point)
-        print "derivatives: ", d
         print 
+
+    plt.plot(range(len(plot_y)), plot_y, 'b-')
+    plt.yscale('log')
+    plt.show()
 
 if __name__ == '__main__':
     main(5)
