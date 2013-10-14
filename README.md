@@ -27,9 +27,18 @@ steep, thus making the gradient descent method overshot the
 minima and, eventually, overflow.
 
 It is possible to counteract this behavior using a variable
-scaling factor and normalizing the gradient: exp(-alpha *
-normalized gradient). Plotting a graph shows that the point
+scaling factor and normalizing the gradient: exp(-alpha * t) *
+* normalized gradient. Plotting a graph shows that the point
 oscillates around the (local) minima and converges to it
 after a number of iterations depending on alpha. Increasing
 the precision used to calculate the derivatives is also of
 help.
+
+The graphs show that the only coefficient which varies
+significantly is the one associated with the highest degree;
+this makes sense because it is the one which makes the gradient
+change the most even with the slightest variation. It is also
+evident that most of the times the gradient descent method gets
+stuck in local minimas because, even though the approximation error
+converges to a steady value, the computed polynomial is evidently
+different from the starting one.
