@@ -9,13 +9,14 @@ and gradient).
 Requires matplotlib in order to plot some graphs (original
 data, error over time and parameters over time).
 
-ml lr.py is a self contained file which correctly shows the
+`ml_lr.py` is a self contained file which correctly shows the
 approximation of a regression line. approximation.py tries
 to solve the same problem using arbitrary degree polynomials
 and a general version of the gradient descent method.
 
 
-NOTES:
+######NOTES:
+
 When approximating a linear function it is enough to scale
 the gradient by a sufficiently small constant factor in order
 to find the only minima of the cost function (i.e. the least
@@ -27,8 +28,8 @@ steep, thus making the gradient descent method overshot the
 minima and, eventually, overflow.
 
 It is possible to counteract this behavior using a variable
-scaling factor and normalizing the gradient: exp(-alpha * t) *
-* normalized gradient. Plotting a graph shows that the point
+scaling factor and normalizing the gradient: `exp(-alpha*t)*
+normalized gradient`. Plotting a graph shows that the point
 oscillates around the (local) minima and converges to it
 after a number of iterations depending on alpha. Increasing
 the precision used to calculate the derivatives is also of
